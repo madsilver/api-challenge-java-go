@@ -1,0 +1,297 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Tech Challenge: Performance and Data Analytics.",
+        "title": "Challenge 1S vs 3J",
+        "contact": {}
+    },
+    "host": "localhost:8080",
+    "paths": {
+        "/active-users-per-day": {
+            "get": {
+                "description": "Return the number of logins by day",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get the active users",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "filter by days with at least MIN value",
+                        "name": "min",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/presenter.TeamInsights"
+                        }
+                    }
+                }
+            }
+        },
+        "/superusers": {
+            "get": {
+                "description": "Return the users with a given score and active",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get the super users",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/presenter.FilterUser"
+                        }
+                    }
+                }
+            }
+        },
+        "/team-insights": {
+            "get": {
+                "description": "Return statistics by team",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get the team insights",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/presenter.TeamInsights"
+                        }
+                    }
+                }
+            }
+        },
+        "/top-countries": {
+            "get": {
+                "description": "Group users by country and return the top 5 countries by user",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get the top countries",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/presenter.TopCountry"
+                        }
+                    }
+                }
+            }
+        },
+        "/users": {
+            "post": {
+                "description": "Load a users JSON file im memory",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Store users",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "Upload file",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/presenter.CreateUser"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "entity.Country": {
+            "type": "object",
+            "properties": {
+                "country": {
+                    "type": "string"
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
+        "entity.Log": {
+            "type": "object",
+            "properties": {
+                "acao": {
+                    "type": "string"
+                },
+                "data": {
+                    "type": "string"
+                }
+            }
+        },
+        "entity.Project": {
+            "type": "object",
+            "properties": {
+                "concluido": {
+                    "type": "boolean"
+                },
+                "nome": {
+                    "type": "string"
+                }
+            }
+        },
+        "entity.Team": {
+            "type": "object",
+            "properties": {
+                "lider": {
+                    "type": "boolean"
+                },
+                "nome": {
+                    "type": "string"
+                },
+                "projetos": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.Project"
+                    }
+                }
+            }
+        },
+        "entity.TeamInfo": {
+            "type": "object",
+            "properties": {
+                "active_percentage": {
+                    "type": "number"
+                },
+                "completed_projects": {
+                    "type": "integer"
+                },
+                "leaders": {
+                    "type": "integer"
+                },
+                "team": {
+                    "type": "string"
+                },
+                "total_members": {
+                    "type": "integer"
+                }
+            }
+        },
+        "entity.User": {
+            "type": "object",
+            "properties": {
+                "ativo": {
+                    "type": "boolean"
+                },
+                "equipe": {
+                    "$ref": "#/definitions/entity.Team"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "idade": {
+                    "type": "integer"
+                },
+                "logs": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.Log"
+                    }
+                },
+                "nome": {
+                    "type": "string"
+                },
+                "pais": {
+                    "type": "string"
+                },
+                "score": {
+                    "type": "integer"
+                }
+            }
+        },
+        "presenter.CreateUser": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "user_count": {
+                    "type": "integer"
+                }
+            }
+        },
+        "presenter.FilterUser": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.User"
+                    }
+                },
+                "execution_time_ms": {
+                    "type": "integer"
+                },
+                "timestamp": {
+                    "type": "string"
+                }
+            }
+        },
+        "presenter.TeamInsights": {
+            "type": "object",
+            "properties": {
+                "execution_time_ms": {
+                    "type": "integer"
+                },
+                "teams": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.TeamInfo"
+                    }
+                },
+                "timestamp": {
+                    "type": "string"
+                }
+            }
+        },
+        "presenter.TopCountry": {
+            "type": "object",
+            "properties": {
+                "countries": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.Country"
+                    }
+                },
+                "execution_time_ms": {
+                    "type": "integer"
+                },
+                "timestamp": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,192 @@
+definitions:
+  entity.Country:
+    properties:
+      country:
+        type: string
+      total:
+        type: integer
+    type: object
+  entity.Log:
+    properties:
+      acao:
+        type: string
+      data:
+        type: string
+    type: object
+  entity.Project:
+    properties:
+      concluido:
+        type: boolean
+      nome:
+        type: string
+    type: object
+  entity.Team:
+    properties:
+      lider:
+        type: boolean
+      nome:
+        type: string
+      projetos:
+        items:
+          $ref: '#/definitions/entity.Project'
+        type: array
+    type: object
+  entity.TeamInfo:
+    properties:
+      active_percentage:
+        type: number
+      completed_projects:
+        type: integer
+      leaders:
+        type: integer
+      team:
+        type: string
+      total_members:
+        type: integer
+    type: object
+  entity.User:
+    properties:
+      ativo:
+        type: boolean
+      equipe:
+        $ref: '#/definitions/entity.Team'
+      id:
+        type: string
+      idade:
+        type: integer
+      logs:
+        items:
+          $ref: '#/definitions/entity.Log'
+        type: array
+      nome:
+        type: string
+      pais:
+        type: string
+      score:
+        type: integer
+    type: object
+  presenter.CreateUser:
+    properties:
+      message:
+        type: string
+      user_count:
+        type: integer
+    type: object
+  presenter.FilterUser:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/entity.User'
+        type: array
+      execution_time_ms:
+        type: integer
+      timestamp:
+        type: string
+    type: object
+  presenter.TeamInsights:
+    properties:
+      execution_time_ms:
+        type: integer
+      teams:
+        items:
+          $ref: '#/definitions/entity.TeamInfo'
+        type: array
+      timestamp:
+        type: string
+    type: object
+  presenter.TopCountry:
+    properties:
+      countries:
+        items:
+          $ref: '#/definitions/entity.Country'
+        type: array
+      execution_time_ms:
+        type: integer
+      timestamp:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: 'Tech Challenge: Performance and Data Analytics.'
+  title: Challenge 1S vs 3J
+paths:
+  /active-users-per-day:
+    get:
+      description: Return the number of logins by day
+      parameters:
+      - description: filter by days with at least MIN value
+        in: query
+        name: min
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/presenter.TeamInsights'
+      summary: Get the active users
+      tags:
+      - Users
+  /superusers:
+    get:
+      description: Return the users with a given score and active
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/presenter.FilterUser'
+      summary: Get the super users
+      tags:
+      - Users
+  /team-insights:
+    get:
+      description: Return statistics by team
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/presenter.TeamInsights'
+      summary: Get the team insights
+      tags:
+      - Users
+  /top-countries:
+    get:
+      description: Group users by country and return the top 5 countries by user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/presenter.TopCountry'
+      summary: Get the top countries
+      tags:
+      - Users
+  /users:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Load a users JSON file im memory
+      parameters:
+      - description: Upload file
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/presenter.CreateUser'
+      summary: Store users
+      tags:
+      - Users
+swagger: "2.0"
