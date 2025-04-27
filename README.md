@@ -33,31 +33,27 @@ The JSON contains a list of users with the following structure:
 ---
 ## Required Endpoints
 
-### POST /users
-Receives and stores the users in memory. You can simulate an in-memory database.
+### `POST /users`
+- Receives and stores the users in memory. You can simulate an in-memory database.
 
-### GET /superusers
+### `GET /superusers`
 - Filter: score >= 900 and active = true
 - Returns the data and the request processing time.
 
-### GET /top-countries
-Groups the superusers by country.
+### `GET /top-countries`
+- Groups the superusers by country.
+- Returns the 5 countries with the highest number of superusers.
 
-Returns the 5 countries with the highest number of superusers.
+### `GET /team-insights`
+- Groups by team.name.
+- Returns: total members, leaders, completed projects, and % of active members.
 
-### GET /team-insights
-Groups by team.name.
+### `GET /active-users-per-day`
+- Counts how many logins occurred per date.
+- Optional query param: ?min=3000 to filter days with at least 3,000 logins.
 
-Returns: total members, leaders, completed projects, and % of active members.
-
-### GET /active-users-per-day
-Counts how many logins occurred per date.
-
-Optional query param: ?min=3000 to filter days with at least 3,000 logins.
-
-### GET /evaluation
+### `GET /evaluation`
 It must perform a self-evaluation of the main API endpoints and return a scoring report.
-
 The evaluation should test:
 
 - If the returned status is 200
