@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"github.com/madsilver/api-challenge/internal/adapter/repository"
+	"github.com/madsilver/api-challenge/internal/infra/repository"
 	"github.com/madsilver/api-challenge/internal/usecase"
 )
 

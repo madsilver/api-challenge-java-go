@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"context"
+	"github.com/madsilver/api-challenge/internal/adapter/repository"
 	"github.com/madsilver/api-challenge/internal/entity"
 	"sort"
 )
@@ -20,10 +21,10 @@ type UserUseCase interface {
 }
 
 type userUseCase struct {
-	userRepo UserRepository
+	userRepo repository.UserRepository
 }
 
-func NewUserUseCase(userRepo UserRepository) UserUseCase {
+func NewUserUseCase(userRepo repository.UserRepository) UserUseCase {
 	return &userUseCase{userRepo}
 }
 
