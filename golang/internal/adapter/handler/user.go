@@ -55,7 +55,7 @@ func (h *userHandler) StoreUsers(ctx *gin.Context) {
 func (h *userHandler) GetSuperUsers(ctx *gin.Context) {
 	start := time.Now()
 	users, _ := h.useCase.GetSuperUsers(ctx)
-	ctx.JSON(200, presenter.MapperSuperUsers(200, start, users))
+	ctx.JSON(200, presenter.MapperResponse[[]entity.User](200, start, users))
 }
 
 // GetTopCountries godoc
@@ -68,7 +68,7 @@ func (h *userHandler) GetSuperUsers(ctx *gin.Context) {
 func (h *userHandler) GetTopCountries(ctx *gin.Context) {
 	start := time.Now()
 	countries, _ := h.useCase.GetTopCountries(ctx)
-	ctx.JSON(200, presenter.MapperTopCountries(200, start, countries))
+	ctx.JSON(200, presenter.MapperResponse[[]entity.Country](200, start, countries))
 }
 
 // GetTeamInsights godoc
@@ -81,7 +81,7 @@ func (h *userHandler) GetTopCountries(ctx *gin.Context) {
 func (h *userHandler) GetTeamInsights(ctx *gin.Context) {
 	start := time.Now()
 	insights, _ := h.useCase.GetTeamInsights(ctx)
-	ctx.JSON(200, presenter.MapperTeamInsights(200, start, insights))
+	ctx.JSON(200, presenter.MapperResponse[[]entity.TeamInfo](200, start, insights))
 }
 
 // GetActiveUsers godoc
@@ -100,5 +100,5 @@ func (h *userHandler) GetActiveUsers(ctx *gin.Context) {
 		minQuery, _ = strconv.Atoi(param)
 	}
 	logins, _ := h.useCase.GetActiveUsersPerDay(ctx, minQuery)
-	ctx.JSON(200, presenter.MapperLogins(200, start, logins))
+	ctx.JSON(200, presenter.MapperResponse[[]entity.Login](200, start, logins))
 }
