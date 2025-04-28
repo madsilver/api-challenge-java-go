@@ -1,4 +1,23 @@
-### GET request to example server
+### GET super users
 GET http://localhost:8080/superusers
+Accept: application/json
 
-###
+### GET top countries
+GET http://localhost:8080/top-countries
+Accept: application/json
+
+### GET active users
+GET http://localhost:8080/active-users-per-day?min=34000
+Accept: application/json
+
+### POST create users
+POST http://localhost:8080/users
+Content-Type: multipart/form-data; boundary=UploadFileBoundary
+
+--UploadFileBoundary
+Content-Disposition: form-data; name="file"; filename="users.json"
+
+< ./users.json
+--UploadFileBoundary--
+
+
