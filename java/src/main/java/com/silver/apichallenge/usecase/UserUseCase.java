@@ -27,14 +27,14 @@ public class UserUseCase {
     public List<User> getSuperUsers() {
         return this.userRepository.GetUsers()
                 .stream()
-                .filter(user -> user.getScore() > MINIMUM_SCORE && user.getActive())
+                .filter(user -> user.score() > MINIMUM_SCORE && user.active())
                 .toList();
     }
 
     public List<Country> getTopCountries() {
         return this.userRepository.GetUsers()
                 .stream()
-                .map(User::getCountry)
+                .map(User::country)
                 .collect(Collectors.groupingBy(country -> country, Collectors.counting()))
                 .entrySet()
                 .stream()
@@ -42,28 +42,5 @@ public class UserUseCase {
                 .map(entry -> new Country(entry.getKey(), entry.getValue().intValue()))
                 .limit(LIMIT_TOP_COUNTRIES)
                 .collect(Collectors.toList());
-        /*
-        return this.userRepository.GetUsers()
-            .stream()
-            .map(User::getCountry)
-            .collect(Collectors.groupingBy(country -> country, Collectors.counting()))
-            .entrySet()
-            .stream()
-            .sorted(Map.Entry.<String, Long>comparingByValue(Comparator.reverseOrder()))
-            .map(entry -> new Country(entry.getKey(), entry.getValue().intValue()))
-            .toList(); // Java 16+
-
-        List<Country> countries = new ArrayList<>();
-
-        this.userRepository.GetUsers()
-            .stream()
-            .map(User::getCountry)
-            .collect(Collectors.groupingBy(country -> country, Collectors.counting()))
-            .forEach((country, count) -> {
-                countries.add(new Country(country, count.intValue()));
-            });
-
-        return countries;
-        */
     }
 }
