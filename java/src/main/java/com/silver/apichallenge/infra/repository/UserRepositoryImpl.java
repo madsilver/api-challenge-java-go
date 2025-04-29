@@ -1,4 +1,4 @@
-package com.silver.apichallenge.infra;
+package com.silver.apichallenge.infra.repository;
 
 import com.silver.apichallenge.adapter.repository.UserRepository;
 import com.silver.apichallenge.entity.User;
