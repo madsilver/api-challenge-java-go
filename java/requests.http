@@ -1,3 +1,13 @@
+### POST create users
+POST http://localhost:8080/users
+Content-Type: multipart/form-data; boundary=UploadFileBoundary
+
+--UploadFileBoundary
+Content-Disposition: form-data; name="file"; filename="users.json"
+
+< ./users.json
+--UploadFileBoundary--
+
 ### GET super users
 GET http://localhost:8080/superusers
 Accept: application/json
@@ -10,14 +20,9 @@ Accept: application/json
 GET http://localhost:8080/active-users-per-day?min=34000
 Accept: application/json
 
-### POST create users
-POST http://localhost:8080/users
-Content-Type: multipart/form-data; boundary=UploadFileBoundary
+### GET team insights
+GET http://localhost:8080/team-insights
+Accept: application/json
 
---UploadFileBoundary
-Content-Disposition: form-data; name="file"; filename="users.json"
-
-< ./users.json
---UploadFileBoundary--
 
 

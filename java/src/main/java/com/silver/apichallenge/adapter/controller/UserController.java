@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.silver.apichallenge.adapter.presenter.Response;
 import com.silver.apichallenge.adapter.presenter.UserCreate;
 import com.silver.apichallenge.entity.Country;
+import com.silver.apichallenge.entity.TeamInfo;
 import com.silver.apichallenge.entity.User;
 import com.silver.apichallenge.usecase.UserUseCase;
 import org.springframework.http.ResponseEntity;
@@ -50,5 +51,12 @@ public class UserController {
         long start = System.currentTimeMillis();
         List<Country> countries = this.userUseCase.getTopCountries();
         return ResponseEntity.ok(new Response<>(200, countries, start));
+    }
+
+    @GetMapping("/team-insights")
+    public ResponseEntity<Response<List<TeamInfo>>> getTeamInsights() {
+        long start = System.currentTimeMillis();
+        List<TeamInfo> teamInfo = this.userUseCase.getTeamInsights();
+        return ResponseEntity.ok(new Response<>(200, teamInfo, start));
     }
 }
