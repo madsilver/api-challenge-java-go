@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.silver.apichallenge.adapter.presenter.Response;
 import com.silver.apichallenge.adapter.presenter.UserCreate;
 import com.silver.apichallenge.entity.Country;
+import com.silver.apichallenge.entity.Login;
 import com.silver.apichallenge.entity.TeamInfo;
 import com.silver.apichallenge.entity.User;
 import com.silver.apichallenge.usecase.UserUseCase;
@@ -58,5 +59,12 @@ public class UserController {
         long start = System.currentTimeMillis();
         List<TeamInfo> teamInfo = this.userUseCase.getTeamInsights();
         return ResponseEntity.ok(new Response<>(200, teamInfo, start));
+    }
+
+    @GetMapping("/active-users-per-day")
+    public ResponseEntity<Response<List<Login>>> getLogins(@RequestParam(value = "min", defaultValue = "0") long min) {
+        long start = System.currentTimeMillis();
+        List<Login> logins = this.userUseCase.getLogins(min);
+        return ResponseEntity.ok(new Response<>(200, logins, start));
     }
 }

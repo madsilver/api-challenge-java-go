@@ -5,6 +5,7 @@ import com.silver.apichallenge.entity.*;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Service
@@ -58,6 +59,19 @@ public class UserUseCase {
                     teamInfo.setCompletedProjects(users.stream().flatMap(user -> user.team().projects().stream()).filter(Project::completed).count());
                     return teamInfo;
                 })
+                .toList();
+    }
+
+    public List<Login> getLogins(long min) {
+        return this.userRepository.GetUsers()
+                .stream()
+                .flatMap(user -> user.logs().stream())
+                .filter(log -> log.action().equals("login"))
+                .collect(Collectors.groupingBy(Log::date, Collectors.counting()))
+                .entrySet()
+                .stream()
+                .filter(entry -> entry.getValue() > min)
+                .map(entry -> new Login(entry.getKey(), entry.getValue()))
                 .toList();
     }
 
